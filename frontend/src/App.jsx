@@ -1,24 +1,18 @@
 import './style.css'
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./integrals/Home";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p className="underline">
-          wefoiwjeoiwjefoiwje
-        </p>
-      </div>
-      <p>
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />}>
+            <Route path="/home" element={<Home />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
   )
 }
 
