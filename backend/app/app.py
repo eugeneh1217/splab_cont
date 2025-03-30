@@ -140,7 +140,7 @@ def add_user_to_item(item_id: int, user_id: int, portion: models.Cash):
         user_id,
         portion.amount)
 
-sio = socketio.AsyncServer(cors_allowed_origins="*", async_mode="asgi")
+sio = socketio.AsyncServer(cors_allowed_origins=["*"], async_mode="asgi")
 socket_app = socketio.ASGIApp(sio)
 app.mount("", socket_app)
 """
