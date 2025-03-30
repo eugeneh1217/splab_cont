@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
@@ -20,6 +20,9 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     added: Mapped[datetime]
+    name: Mapped[str] = mapped_column(String(64), nullable=False)
+    tab_id: Mapped[int] = mapped_column(ForeignKey("tabs.id"))
+    sid: Mapped[int]
 
 class Item(Base):
     __tablename__ = "items"

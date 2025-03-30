@@ -43,8 +43,8 @@ class SplabDB:
             paid = session.scalars(paid_stmt).one()
             return tab_total.total, paid or 0
 
-    def create_user(self) -> int:
-        new_user = User(added=datetime.now())
+    def create_user(self, name: str) -> int:
+        new_user = User(added=datetime.now(), name=name)
         with Session(self.engine) as session:
             session.add(new_user)
             session.commit()
@@ -54,6 +54,17 @@ class SplabDB:
         with Session(self.engine) as session:
             stmt = select(User).where(User.id == user_id)
             return session.scalar(stmt)
+
+    def get_user_by_sid(self, sid: int) -> User or None:
+        with Session(self.engine) as session:
+            stmt = select(User).where(User.sid == sid)
+            return session.scalar(stmt)
+
+    def update_user_sid(self, user_id: int, sid: int) -> None:
+        with Session(self.engine) as session:
+            stmt = session.query(User) \
+                    .filter(User.user_id == user_id) \
+                    .update({User.sid: sid})
 
     def create_item_add_to_tab(self, tab_id: int, total: float) -> int:
         new_item = Item(tab_id=tab_id, total=total)

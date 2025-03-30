@@ -1,6 +1,8 @@
 from typing import Union
 
-from fastapi import FastAPI, status, HTTPException
+from fastapi import FastAPI, status, HTTPException, WebSocket
+import uvicorn
+import socketio
 
 from . import data
 from . import models
@@ -67,12 +69,12 @@ def get_tab_paid(tab_id: int):
     return {"tab_total": tab_total, "tab_paid": tab_paid}
 
 @app.post("/users/create", status_code=status.HTTP_201_CREATED, tags=["users"])
-def create_user():
+def create_user(request: models.UserRequest):
     """
     Create new user.
     """
     db = data.SplabDB()
-    user_id = db.create_user()
+    user_id = db.create_user(name=request.name)
     return {"user_id": user_id}
 
 @app.post("/users/{user_id}/pay", status_code=status.HTTP_200_OK, tags=["users"])
@@ -107,3 +109,41 @@ def add_user_to_item(item_id: int, user_id: int, portion: models.Cash):
         user_id,
         portion.amount)
 
+sio = socketio.AsyncServer(cors_allowed_origins="*", async_mode="asgi")
+socket_app = socketio.ASGIApp(sio)
+app.mount("", socket_app)
+"""
+@app.websocket("/live")
+async def socketio_endpoint(websocket: WebSocket):
+    await sio.attach(websocket)
+"""
+
+@sio.on("connect")
+async def connect(sid, env):
+    print(f"new client connected to sid: {str(sid)}")
+
+@sio.on("disconnect")
+async def disconnect(sid):
+    print(f"client disconnect: {str(sid)}")
+
+@sio.on("join_tab")
+async def user_join_tab(sid, data):
+    db = data.SplabDB()
+    user_id = data["tab_id"]
+    tab_id = data["tab_id"]
+    sio.enter_room(sid, str(tab_id))
+    data["user_id"] = user.id
+    sio.emit("join_tab", data, room=user.tab, skip_sid=sid)
+
+@sio.on("take_item")
+async def user_take_item(sid, sock_data):
+    db = data.SplabDB()
+    user = db.get_user_by_sid(sid)
+    sock_data["user"] = user.name
+    sio.emit("take_item", sock_data, room=user.tab_id, skip_sid=sid)
+
+"""
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, lifespan="on",
+                reload=True)
+"""
