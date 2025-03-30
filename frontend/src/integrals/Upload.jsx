@@ -23,7 +23,7 @@ const Bill = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-purple-100 p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-purple-100 p-6 font-mono">
       <h2 className="text-2xl font-semibold mb-6">Upload your bill</h2>
 
       {!selectedImage ? (
@@ -45,12 +45,12 @@ const Bill = () => {
           <img
             src={selectedImage}
             alt="Uploaded bill"
-            className="w-full max-w-xs rounded-xl shadow-md"
+            className="w-full max-w-xs rounded-xl shadow-md border-4 bg-white"
           />
           <div className="flex gap-4 mt-6">
             <button
               onClick={handleCancel}
-              className="px-4 py-2 bg-[var(--secondary)] text-white rounded-full shadow transition"
+              className="px-4 py-2 bg-[var(--primary)] text-white rounded-full shadow transition"
             >
               Cancel
             </button>
