@@ -18,9 +18,9 @@ function ConfirmUpload() {
           )
         }
       </div>
-      <div className="absolute bottom-5 flex flex-row gap-20">
-        <button onClick={() => navigate("/upload")} className="m-4 px-10 border border-gray-300 rounded-md">Back</button>
-        <button onClick={() => navigate("/get-link")} className="m-4 px-10 border border-gray-300 rounded-md">Proceed</button>
+      <div className="absolute bottom-5 flex flex-row gap-10">
+        <button onClick={() => navigate("/upload")} className="px-15 py-3 bg-[var(--primary)] text-white rounded-full shadow transition">Back</button>
+        <button onClick={() => navigate("/get-link")} className="px-15 py-3 bg-[var(--primary)] text-white rounded-full shadow transition">Proceed</button>
       </div>
     </div>
   )
