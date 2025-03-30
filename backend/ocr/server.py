@@ -1,16 +1,9 @@
 from fastapi import FastAPI, UploadFile
-from transformers import pipeline
 from PIL import Image
 import io
-import os
-import parse
+import parse_xml
+from model import pipe
 
-
-if not os.path.isdir('model'):
-    pipe = pipeline("image-to-text", model="selvakumarcts/sk_invoice_receipts")
-    pipe.save_pretrained('model')
-else:
-    pipe = pipeline('image-to-text', 'model')
 
 app = FastAPI()
 
@@ -29,6 +22,8 @@ async def create_upload_file(file: UploadFile):
     image = Image.open(io.BytesIO(image_data))
 
     xml_receipt_extraction =  pipe(images=image)[0]['generated_text']
-    dict_receipt_extraction = parse.receipt_xml_to_dict(xml_receipt_extraction)
+    dict_receipt_extraction = parse_xml.receipt_xml_to_dict(xml_receipt_extraction)
 
     return {"filename": file.filename, 'data': dict_receipt_extraction}
+
+
