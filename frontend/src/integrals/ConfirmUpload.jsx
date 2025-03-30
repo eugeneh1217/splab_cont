@@ -10,7 +10,7 @@ function ConfirmUpload() {
   return (
     <div className="relative h-full flex flex-col items-center">
       <h1 className="m-5 text-lg font-bold">Confirm List</h1>
-      <div className="w-[80%]">
+      <div className="w-[80%] flex flex-col gap-2">
         {items ? (items.map((item, index) => (
             <BillItem key={index} index={index+1} name={item.name} price={item.price}/>
           ))) : (

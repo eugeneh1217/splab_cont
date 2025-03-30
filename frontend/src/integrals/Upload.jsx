@@ -50,13 +50,13 @@ const Bill = () => {
           <div className="flex gap-4 mt-6">
             <button
               onClick={handleCancel}
-              className="px-4 py-2 bg-red-500 text-white rounded-full shadow hover:bg-red-600 transition"
+              className="px-4 py-2 bg-[var(--secondary)] text-white rounded-full shadow transition"
             >
               Cancel
             </button>
             <button
               onClick={handleProceed}
-              className="px-4 py-2 bg-green-500 text-white rounded-full shadow hover:bg-green-600 transition"
+              className="px-4 py-2 bg-[var(--primary)] text-white rounded-full shadow transition"
             >
               Proceed
             </button>
