@@ -75,6 +75,22 @@ def get_tab_paid(tab_id: int):
     tab_total, tab_paid = db.get_tab_paid(tab_id)
     return {"tab_total": tab_total, "tab_paid": tab_paid}
 
+@app.get("/tabs/{tab_id}/items", status_code=status.HTTP_200_OK, tags=["tabs"])
+def get_tab_items(tab_id: int):
+    """
+    Get all the items on a tab and the users on each tab
+    """
+    db = data.SplabDB()
+    if db.get_tab_items(tab_id) is None:
+        raise HTTPException(status_code=404, detail="Tab not found")
+    tab_items = db.get_tab_items(tab_id)
+    for tab_item in tab_items:
+        tab_item['taken_by'] = db.get_users_on_item(tab_item['id'])
+
+    return {"tab": tab_items}
+
+
+
 @app.post("/users/create", status_code=status.HTTP_201_CREATED, tags=["users"])
 def create_user():
     """
@@ -115,4 +131,5 @@ def add_user_to_item(item_id: int, user_id: int, portion: models.Cash):
         item_id,
         user_id,
         portion.amount)
+
 
