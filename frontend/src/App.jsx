@@ -14,10 +14,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/code" element={<TabList />} />
-          <Route path="/member_final" element={<MemberFInal />} />
+          <Route path="/member-final" element={<MemberFInal />} />
           <Route path="/upload" element={<Upload />} />
-          <Route path="/member_home" element={<MemberHome />} /> 
-          <Route path="/get_link" element={<GetLink />} />
+          <Route path="/member-home" element={<MemberHome />} /> 
+          <Route path="/get-link" element={<GetLink />} />
         </Routes>
       </BrowserRouter>
     </div>
