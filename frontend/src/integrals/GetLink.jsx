@@ -1,5 +1,6 @@
 import React from "react";
-import { useNavigate, useEffect, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 
 const GetLink = () => {
@@ -13,9 +14,9 @@ const GetLink = () => {
 
   useEffect(() => {
     if(!searchParams.get("code")) {
-      navigate('/')
+      navigate('/');
     }
-    shareLink = searchParams.get("code");
+    setShareLink("/tab-list?code=" + searchParams.get("code"));
   }, [])
 
   return (
@@ -32,7 +33,7 @@ const GetLink = () => {
         </p>
 
         <div className="flex items-center justify-between bg-gray-100 rounded-xl p-3 w-full max-w-xs mb-6">
-          <span className="text-xs text-gray-700 truncate">{shareLink}</span>
+          <span className="text-xs text-gray-700 truncate">localhost:5173{shareLink}</span>
           <button
             onClick={handleCopy}
             className="ml-2 px-3 py-1 bg-[var(--secondary)] text-white rounded-full text-xs shadow hover:opacity-90 transition"
@@ -42,7 +43,7 @@ const GetLink = () => {
         </div>
 
         <button
-          onClick={() => navigate("/tab-list/?code=abc123")}
+          onClick={() => navigate(shareLink)}
           className="px-6 py-3 bg-[var(--primary)] text-white rounded-full shadow-md hover:opacity-90 transition text-sm font-semibold"
         >
           Go to Tab
