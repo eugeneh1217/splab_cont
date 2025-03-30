@@ -19,6 +19,25 @@ function TabList() {
   const [tip, setTip] = useState("");
 
   useEffect(() => {
+    if (!searchParams.get("code")) {
+      navigate("/");
+    }
+    const currTabId = searchParams.get("code");
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/tabs/${currTabId}/items`)
+      .then((response) => {
+        console.log(response.data.tab);
+        setItems(response.data.tab);
+      });
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/tabs/${currTabId}/members`)
+      .then((response) => {
+        setMembers(response.data.members);
+      });
+    setTabId(currTabId);
+  }, []);
+
+  useEffect(() => {
     socket.on("take_item", (data) => {
       const { item_id, user } = data;
       setItems((prevItems) =>
@@ -56,32 +75,14 @@ function TabList() {
     alert(`Tip: ${tip || 0}, Checked Items: ${JSON.stringify(checkedItems)}`);
   };
 
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/tabs/${tabId}/items`)
-      .then((response) => {
-        setItems(response.data.items);
-      });
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/tabs/${tabId}/members`)
-      .then((response) => {
-        setMembers(response.data.members);
-      });
-  }, [tabId]);
 
-  useEffect(() => {
-    if (!searchParams.get("code")) {
-      navigate("/");
-    }
-    setTabId(searchParams.get("code"));
-  }, []);
 
   return (
     <div className="flex flex-col items-center h-screen bg-white relative font-mono">
       <h1 className="mt-3 text-lg font-bold">Your Tab</h1>
       <h2 className="text-sm">{searchParams.get("code")}</h2>
 
-      {members.length > 0 && <AvatarCircles members={members} />}
+      {members?.length > 0 && <AvatarCircles members={members} />}
 
       <div className="flex-1 overflow-y-auto w-[86%] scrollnone flex flex-col gap-2 pb-24">
         {items.map((item, idx) => (
@@ -89,7 +90,7 @@ function TabList() {
             key={item.id}
             index={idx + 1}
             name={item.name}
-            price={item.price}
+            price={item.total}
             isChecked={!!checkedItems[item.id]}
             handleCheckbox={() => handleCheckbox(item.id)}
           />

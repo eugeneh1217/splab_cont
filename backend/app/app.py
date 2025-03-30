@@ -89,6 +89,12 @@ def get_tab_items(tab_id: int):
 
     return {"tab": tab_items}
 
+@app.get("/tabs/{tab_id}/members", status_code=status.HTTP_200_OK, tags=["tabs"])
+def get_tabb_members(tab_id: int):
+    """
+    Get all the members on a tab
+    """
+    return {"not implements"}
 
 
 @app.post("/users/create", status_code=status.HTTP_201_CREATED, tags=["users"])
