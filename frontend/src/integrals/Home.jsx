@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
+import logo from "../assets/logo.png";
 
 function Home() {
   const [isOwner, setIsOwner] = useState(true);
@@ -12,80 +13,91 @@ function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(isOwner) {
+    if (isOwner) {
       if (!name || !zelleId) {
+        alert("Please fill all fields");
         return;
       }
       setUser({
         name,
         zelleId,
-        isOwner: isOwner,
+        isOwner: true,
       });
       navigate("/upload");
     } else {
-      navigate(`/tab-list?code=${code}`)
+      if (!name || !code) {
+        alert("Please fill all fields");
+        return;
+      }
+      setUser({
+        name,
+        isOwner: false,
+      });
+      navigate(`/tab-list?code=${code}`);
     }
   };
 
   return (
-    <div className="flex flex-col items-center text-3xl font-bold">
-      {isOwner ? (
-        <div>
-          <h1 className="mt-[10%]">Create a Splab!</h1>
-          <form className="mt-[5%] flex flex-col gap-5" onSubmit={handleSubmit}>
-            <label className="text-sm font-normal">
-              Name:
-              <input
-                className="border border-gray-300 rounded-md p-2 w-64"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </label>
-            <label className="text-sm font-normal">
-              Zelle ID:
-              <input
-                className="border border-gray-300 rounded-md p-2 w-64"
-                type="text"
-                value={zelleId}
-                onChange={(e) => setZelleId(e.target.value)}
-              />
-            </label>
-            <input className="border broder-gray-300 round-md p-2" type="submit" value="Submit!"/>
-          </form>
-          <div className="w-full flex flex-col items-center">
-            <button className="text-sm font-normal" onClick={() => setIsOwner(false)}>Join a Splab?</button>
-          </div>
-        </div>
-      ) : (
-        <div>
-          <h1 className="mt-[10%]">Join a Splab!</h1>
-          <form className="mt-[5%] flex flex-col gap-5" onSubmit={handleSubmit}>
-            <label className="text-sm font-normal">
-              Name:
-              <input
-                className="border border-gray-300 rounded-md p-2 w-64"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </label>
-            <label className="text-sm font-normal">
-              Code:
-              <input
-                className="border border-gray-300 rounded-md p-2 w-64"
-                type="text"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
-            </label>
-            <input className="border broder-gray-300 round-md p-2" type="submit" value="Submit!"/>
-          </form>
-          <div className="w-full flex flex-col items-center">
-            <button className="text-sm font-normal" onClick={() => setIsOwner(true)}>Create a Splab?</button>
-          </div>
-        </div>
-      )}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-purple-200">
+      <div className="bg-white p-15 py-5 flex flex-col items-center justify-center rounded-2xl w-[80%] shadow-lg">
+        <img
+          src={logo}
+          className=" w-32 h-32 mb-6 flex items-center justify-center "
+        />
+
+        <h1 className="text-2xl font-bold mb-2">
+          {isOwner ? "Create a Splab!" : "Join a Splab!"}
+        </h1>
+        <p className="text-gray-500 text-sm mb-8">
+          {isOwner
+            ? "Split your bill effortlessly"
+            : "Enter the tab code to join"}
+        </p>
+
+        <form
+          className="flex flex-col gap-4 w-full max-w-xs"
+          onSubmit={handleSubmit}
+        >
+          <input
+            className="bg-gray-100 rounded-xl p-3 text-sm border border-gray-300 focus:outline-none"
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          {isOwner ? (
+            <input
+              className="bg-gray-100 rounded-xl p-3 text-sm border border-gray-300 focus:outline-none"
+              type="text"
+              placeholder="Zelle ID"
+              value={zelleId}
+              onChange={(e) => setZelleId(e.target.value)}
+            />
+          ) : (
+            <input
+              className="bg-gray-100 rounded-xl p-3 text-sm border border-gray-300 focus:outline-none"
+              type="text"
+              placeholder="Tab Code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
+          )}
+
+          <button
+            type="submit"
+            className=" text-black font-semibold rounded-full py-3 mt-4 shadow-md bg-[var(--secondary)]"
+          >
+            {isOwner ? "Create Splab" : "Join Splab"}
+          </button>
+        </form>
+
+        <button
+          className="text-sm font-bold mt-6"
+          onClick={() => setIsOwner(!isOwner)}
+        >
+          {isOwner ? "Join a Splab instead?" : "Create a Splab instead?"}
+        </button>
+      </div>
     </div>
   );
 }
