@@ -18,7 +18,7 @@ const Bill = () => {
   };
 
   const handleProceed = () => {
-    navigate("/member_final"); 
+    navigate("/confirm-upload"); 
   };
 
   return (

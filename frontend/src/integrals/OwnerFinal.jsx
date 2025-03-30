@@ -1,6 +1,6 @@
 import MemberSplit from "../components/MemberSplit"
 
-function OwnerView() {
+function OwnerFinal() {
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-lg font-bold">Split</h1>
@@ -14,4 +14,4 @@ function OwnerView() {
   )
 }
 
-export default OwnerView;
+export default OwnerFinal;

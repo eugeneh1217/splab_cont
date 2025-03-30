@@ -1,9 +1,11 @@
 import { useState } from "react";
 
 import BillItem from "../components/BillItem";
+import { useNavigate } from "react-router-dom";
 
 function ConfirmUpload() {
   const [items, setItems] = useState([{'name': 'potato', 'price': 5}, {'name': 'chicken', 'price': 6}])
+  const navigate = useNavigate();
 
   return (
     <div className="relative h-full flex flex-col items-center">
@@ -17,8 +19,8 @@ function ConfirmUpload() {
         }
       </div>
       <div className="absolute bottom-5 flex flex-row gap-20">
-        <button className="m-4 px-10 border border-gray-300 rounded-md">Back</button>
-        <button className="m-4 px-10 border border-gray-300 rounded-md">Proceed</button>
+        <button onClick={() => navigate("/upload")} className="m-4 px-10 border border-gray-300 rounded-md">Back</button>
+        <button onClick={() => navigate("/get-link")} className="m-4 px-10 border border-gray-300 rounded-md">Proceed</button>
       </div>
     </div>
   )
