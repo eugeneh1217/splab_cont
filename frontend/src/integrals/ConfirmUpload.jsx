@@ -1,23 +1,26 @@
 import { useState, useEffect } from "react";
 
-import axios from 'axios';
+import axios from "axios";
 
 import BillItem from "../components/BillItem";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
+import { useSocket } from "../contexts/SocketContext";
 
 function ConfirmUpload() {
   const [items, setItems] = useState([]);
-  const { setUser } = useUser();
+  const { setUser, user } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
   const imageFile = location.state?.imageFile; // Retrieve the file
   const [blobUrl, setBlobUrl] = useState(null);
+  const { socket } = useSocket();
 
   function handleProceed() {
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/tabs/create`, { "amount": 0 })
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/tabs/create`, { amount: 0 })
       .then((response) => {
-        setUser({items});
+        setUser({ items });
         const tabId = response.data.tab_id;
         items.forEach((item) => {
           axios
@@ -32,16 +35,25 @@ function ConfirmUpload() {
               console.error("Error creating item:", err.message);
             });
         });
-        axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/create`)
+        axios
+          .post(`${import.meta.env.VITE_BACKEND_URL}/users/create`)
           .then((response) => {
             setUser({
+              ...user,
               id: response.data.user_id,
             });
+            socket.emit("join_tab", {
+              tab_id: tabId,
+              user_id: response.data.user_id,
+              user_name: user.name,
+              isOwner: true,
+            });
             navigate(`/get-link?code=${tabId}`);
-          })
-      }).catch((error) => {
-        console.log("Error: " + error.message);
+          });
       })
+      .catch((error) => {
+        console.log("Error: " + error.message);
+      });
   }
 
   useEffect(() => {

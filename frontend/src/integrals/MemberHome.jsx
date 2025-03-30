@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { useSocket } from "../contexts/SocketContext";
 
 const MemberHome = () => {
   const [tabOwner, setTabOwner] = useState("John");
   const navigate = useNavigate();
-  const { setUser } = useUser();
+  const { setUser, user } = useUser();
   const [name, setName] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [code, setCode] = useState("");
+  const { socket } = useSocket();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!name) {
-      alert("Please enter your name");
       return;
     }
 
@@ -22,8 +25,22 @@ const MemberHome = () => {
       isOwner: false,
     });
 
-    navigate("/tab-list?code=abc123");
+    socket.emit("join_tab", {
+      tab_id: code,
+      isOwner: false,
+      user_id: user.id,
+      user_name: name,
+    });
+
+    navigate("/tab-list?code=" + code);
   };
+
+  useEffect(() => {
+    if (!searchParams.get("code")) {
+      navigate("/");
+    }
+    setCode(searchParams.get("code"));
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-purple-200">
