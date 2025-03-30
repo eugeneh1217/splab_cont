@@ -1,0 +1,27 @@
+Table users {
+  id integer [primary key]
+  added date
+}
+
+Table tabs {
+  id integer [primary key]
+  total float
+}
+
+Table items {
+  id integer [primary key]
+  total float
+  tab_id integer
+}
+
+Table item_users {
+  item_id integer
+  user_id integer
+  portion float
+}
+
+Ref: items.tab_id > tabs.id
+
+Ref: item_users.item_id > items.id
+Ref: item_users.user_id > users.id
+
