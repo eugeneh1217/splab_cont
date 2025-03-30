@@ -72,7 +72,40 @@ function TabList() {
   };
 
   const handleSubmit = () => {
-    alert(`Tip: ${tip || 0}, Checked Items: ${JSON.stringify(checkedItems)}`);
+    if (user.isOwner) {
+      const memberTotals = {};
+
+      items.forEach((item) => {
+        if (item.taken_by && item.taken_by.length > 0) {
+          item.taken_by.forEach((memberName) => {
+            if (!memberTotals[memberName]) {
+              memberTotals[memberName] = 0;
+            }
+            memberTotals[memberName] += item.price;
+          });
+        }
+      });
+
+      const tipAmount = parseFloat(tip) || 0;
+      const tipPerMember = members.length > 0 ? tipAmount / members.length : 0;
+
+      Object.keys(memberTotals).forEach((name) => {
+        memberTotals[name] += tipPerMember;
+      });
+
+      navigate("/owner-final", { state: { splits: memberTotals } });
+    } else {
+      const myTotal = items
+        .filter((item) => checkedItems[item.id])
+        .reduce((acc, item) => acc + item.price, 0);
+
+      const tipAmount = parseFloat(tip) || 0;
+      const finalAmount = myTotal + tipAmount;
+
+      navigate("/member-final", {
+        state: { amount: finalAmount, zelleId: "johndoe@email.com" },
+      });
+    }
   };
 
 

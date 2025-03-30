@@ -25,7 +25,11 @@ def upgrade() -> None:
     op.create_table(
         "users",
         sa.Column("id", sa.Integer, primary_key=True),
-        sa.Column("added", sa.DateTime, nullable=False)
+        sa.Column("added", sa.DateTime, nullable=False),
+        sa.Column("name", sa.String, nullable=True),
+        sa.Column("tab_id", sa.Integer, sa.ForeignKey("tabs.id"),
+                  nullable=True),
+        sa.Column("sid", sa.Integer)
     )
     op.create_table(
         "tabs",

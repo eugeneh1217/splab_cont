@@ -1,4 +1,7 @@
 alembic
 fastapi[standard]
 pytest
+python-socketio
+requests
+websocket-client
 
