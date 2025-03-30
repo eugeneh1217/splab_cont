@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaCamera } from "react-icons/fa";
 
 const Bill = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -22,12 +23,15 @@ const Bill = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-purple-100 p-6">
       <h2 className="text-2xl font-semibold mb-6">Upload your bill</h2>
 
       {!selectedImage ? (
-        <label className="w-full flex flex-col items-center justify-center bg-white p-6 rounded-xl shadow-md cursor-pointer">
-          <span className="text-gray-500 mb-2">Tap to take a picture or upload</span>
+        <label className="w-full flex flex-col items-center justify-center border-2 border-dashed bg-white p-6 rounded-xl shadow-md cursor-pointer">
+          <div className="flex flex-col items-center justify-center gap-2 text-gray-500 mb-2">
+            <FaCamera className="w-20 h-20"/>
+            Tap to take a picture or upload
+          </div>
           <input
             type="file"
             accept="image/*"
