@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import BillItem from "../components/BillItem";
 import AvatarCircles from "../components/AvatarCircles";
 
 function TabList() {
+  let [searchParams, setSearchParams] = useSearchParams();
+  let navigate = useNavigate();
+
   const [checkedItems, setCheckedItems] = useState({});
   const [tip, setTip] = useState("");
   const members = ["Arnav Aggarwal", "Ishani Mehra", "Cheng Li", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta"];
@@ -51,9 +55,16 @@ function TabList() {
     alert(`Tip: ${tip || 0}, Checked Items: ${JSON.stringify(checkedItems)}`);
   };
 
+  useEffect(() => {
+    if(!searchParams.get("code")) {
+      navigate("/")
+    }
+  }, [])
+
   return (
-    <div className="flex flex-col items-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center h-screen bg-gray-100 relative">
       <h1 className="m-5 text-lg font-bold">Your Tab</h1>
+      <p className="absolute right-15 top-5">Code: {searchParams.get("code")}</p>
       <AvatarCircles members={members} />
 
       <div className="flex-1 overflow-y-auto w-[80%] flex flex-col gap-2 pb-24">
