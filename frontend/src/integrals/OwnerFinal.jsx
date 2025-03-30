@@ -11,13 +11,25 @@ function OwnerFinal() {
         />
 
         <h1 className="text-2xl font-bold mb-4">Split Summary</h1>
-        <p className="text-gray-500 text-sm mb-6">Here’s what each member owes</p>
+        <p className="text-gray-500 text-sm mb-6">Here’s how much each member owes you</p>
 
-        <div className="w-full flex flex-col gap-2 border-t border-gray-300">
+        <div className="w-full flex flex-col gap-2 border-t border-gray-300 overflow-y-scroll max-h-64">
           <MemberSplit name="Andy" amount={35.4} />
           <MemberSplit name="Ishani" amount={12.75} />
           <MemberSplit name="Cheng" amount={9.99} />
           <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+          <MemberSplit name="Arnav" amount={18.0} />
+
         </div>
       </div>
     </div>
