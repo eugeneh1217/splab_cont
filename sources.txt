@@ -1,0 +1,3 @@
+## Receipt information extraction model
+huggingface.co/selvakumarcts/sk_invoice_receipts
+

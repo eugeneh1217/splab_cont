@@ -3,6 +3,7 @@ from typing import Union
 from fastapi import FastAPI, status, HTTPException, WebSocket
 import uvicorn
 import socketio
+from fastapi.middleware.cors import CORSMiddleware
 
 from . import data
 from . import models
@@ -27,6 +28,14 @@ app = FastAPI(
         summary=summary,
         description=description,
         version="0.0.1")
+
+app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"]
+)
 
 tags_metadata = [
         {
@@ -67,6 +76,22 @@ def get_tab_paid(tab_id: int):
         raise HTTPException(status_code=404, detail="Tab not found")
     tab_total, tab_paid = db.get_tab_paid(tab_id)
     return {"tab_total": tab_total, "tab_paid": tab_paid}
+
+@app.get("/tabs/{tab_id}/items", status_code=status.HTTP_200_OK, tags=["tabs"])
+def get_tab_items(tab_id: int):
+    """
+    Get all the items on a tab and the users on each tab
+    """
+    db = data.SplabDB()
+    if db.get_tab_items(tab_id) is None:
+        raise HTTPException(status_code=404, detail="Tab not found")
+    tab_items = db.get_tab_items(tab_id)
+    for tab_item in tab_items:
+        tab_item['taken_by'] = db.get_users_on_item(tab_item['id'])
+
+    return {"tab": tab_items}
+
+
 
 @app.post("/users/create", status_code=status.HTTP_201_CREATED, tags=["users"])
 def create_user(request: models.UserRequest):
@@ -147,3 +172,4 @@ if __name__ == "__main__":
     uvicorn.run("app:app", host="0.0.0.0", port=8000, lifespan="on",
                 reload=True)
 """
+

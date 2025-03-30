@@ -45,6 +45,34 @@ class SplabDB:
 
     def create_user(self, name: str) -> int:
         new_user = User(added=datetime.now(), name=name)
+
+    def get_tab_items(self, tab_id: int) -> list[dict]:
+        with Session(self.engine) as session:
+            print("here: " + str(tab_id))
+            tab_item_stmt = select(Item).where(Item.tab_id == tab_id)
+            tab_items = list(session.scalars(tab_item_stmt))
+            print("tab_items", tab_items)
+            # Convert each item to a dictionary
+            tab_items_dicts = [item.__dict__ for item in tab_items]
+            
+            # Remove the `_sa_instance_state` key, which is an internal SQLAlchemy attribute
+            for item_dict in tab_items_dicts:
+                item_dict.pop("_sa_instance_state", None)
+            return tab_items_dicts or {}
+
+    def get_users_on_item(self, item_id: int) -> list[int]:
+        with Session(self.engine) as session:
+            # Assuming Item has a relationship with User, for example, via a many-to-many or one-to-many relationship
+            item_stmt = select(ItemUser).where(ItemUser.item_id == item_id)
+            if session.scalar(item_stmt) == None:
+                return []
+            users = list(session.scalar(item_stmt))
+
+            users_list = []
+            for user in users:
+                users_list.append(user.user_id)
+            return users_list or []
+
         with Session(self.engine) as session:
             session.add(new_user)
             session.commit()

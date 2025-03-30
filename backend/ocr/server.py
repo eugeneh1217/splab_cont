@@ -3,10 +3,18 @@ from PIL import Image
 import io
 import parse_xml
 from model import pipe
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
 
+app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"]
+)
 
 # Return a test reponse
 @app.get('/')
