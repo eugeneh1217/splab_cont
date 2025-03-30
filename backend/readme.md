@@ -1,6 +1,15 @@
 # Backend
 Database flavor is sqlite.
 
+## Backend Set up
+1. install sqlite3 with `sudo apt-get install sqlite3`
+2. create virtual env, install requirements, activate environment
+3. run alembic migration with `alembic upgrade head` from `backend/` directory
+4. source .env from `backend/`
+5. run backend server with `./run.sh` from `backend/`
+6. can run tests with `./test.sh` from `backend/`
+
+
 ## FastAPI
 FastAPI was selected because it
 * Is fast

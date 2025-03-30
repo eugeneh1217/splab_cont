@@ -1,6 +1,7 @@
 from typing import Union
 
 from fastapi import FastAPI, status, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from . import data
 from . import models
@@ -25,6 +26,14 @@ app = FastAPI(
         summary=summary,
         description=description,
         version="0.0.1")
+
+app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"]
+)
 
 tags_metadata = [
         {

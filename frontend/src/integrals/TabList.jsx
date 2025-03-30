@@ -9,6 +9,7 @@ function TabList() {
 
   const [checkedItems, setCheckedItems] = useState({});
   const [tip, setTip] = useState("");
+
   const members = [
     "Arnav Aggarwal",
     "Ishani Mehra",
@@ -70,21 +71,20 @@ function TabList() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center h-screen bg-white relative">
-      <h1 className="m-5 text-lg font-bold">Your Tab</h1>
-      <p className="absolute right-15 top-5">
-        Code: {searchParams.get("code")}
-      </p>
-      <AvatarCircles members={members} />
+    <div className="flex flex-col items-center h-screen bg-white relative font-mono">
+      <h1 className="mt-3 text-lg font-bold">Your Tab</h1>
+      <h2 className="text-sm">{searchParams.get("code")}</h2>
 
-      <div className="flex-1 overflow-y-auto w-[86%] flex flex-col gap-2 pb-24">
+      {members.length > 0 && <AvatarCircles members={members} />}
+
+      <div className="flex-1 overflow-y-auto w-[86%] scrollnone flex flex-col gap-2 pb-24">
         <BillItem
           index={1}
           price={18.99}
           name="Bill"
           isChecked={!!checkedItems[1]}
           handleCheckbox={() => handleCheckbox(1)}
-          checkedBy={["Ishani", "Arnav"]}
+          checkedBy={["Ishani", "Arnav", "Cheng"]}
         />
 
         {items.map((item, idx) => (
@@ -99,17 +99,17 @@ function TabList() {
         ))}
       </div>
 
-      <div className="fixed bottom-4 flex gap-2 items-center bg-white p-3 rounded-xl shadow-md">
+      <div className="fixed bottom-0 w-full bg-white/70 backdrop-blur-md border-t border-gray-300 flex items-center justify-evenly px-6 py-4 shadow-xl">
         <input
           type="number"
           value={tip}
           onChange={(e) => setTip(e.target.value)}
           placeholder="Tip ($)"
-          className="border border-gray-300 rounded-md p-2 w-24 text-sm"
+          className="border border-[var(--primary)] text-center rounded-full p-2 w-24 text-sm bg-white/70 backdrop-blur-sm focus:outline-none"
         />
         <button
           onClick={handleSubmit}
-          className="px-4 py-2 bg-green-500 text-white rounded-full text-sm hover:bg-green-600 transition"
+          className="px-6 py-2 rounded-full text-white font-semibold shadow-md bg-[var(--secondary)] transition"
         >
           Submit
         </button>
