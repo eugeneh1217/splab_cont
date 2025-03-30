@@ -1,11 +1,24 @@
 import { useState } from "react";
 
+import axios from 'axios';
+
 import BillItem from "../components/BillItem";
 import { useNavigate } from "react-router-dom";
+
 
 function ConfirmUpload() {
   const [items, setItems] = useState([{'name': 'potato', 'price': 5}, {'name': 'chicken', 'price': 6}])
   const navigate = useNavigate();
+
+  function handleProceed() {
+    axios.post(`${import.meta.env.VITE_BACKEND_URL}/tabs/create`, {"amount": 0})
+      .then((response) => {
+        console.log(response);
+        navigate("/get-link")
+      }).catch((error) => {
+        console.log("Error: " + error.message);
+      })
+  }
 
   return (
     <div className="relative h-full flex flex-col items-center">
@@ -20,7 +33,7 @@ function ConfirmUpload() {
       </div>
       <div className="absolute bottom-5 flex flex-row gap-10">
         <button onClick={() => navigate("/upload")} className="px-15 py-3 bg-[var(--primary)] text-white rounded-full shadow transition">Back</button>
-        <button onClick={() => navigate("/get-link")} className="px-15 py-3 bg-[var(--primary)] text-white rounded-full shadow transition">Proceed</button>
+        <button onClick={() => handleProceed()} className="px-15 py-3 bg-[var(--primary)] text-white rounded-full shadow transition">Proceed</button>
       </div>
     </div>
   )
