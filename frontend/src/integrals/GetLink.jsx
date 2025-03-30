@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const GetLink = () => {
   const shareLink = "https://splabapp.com/join/abc123";
+  const navigate = useNavigate();
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shareLink);
@@ -25,7 +27,9 @@ const GetLink = () => {
       </div>
 
       <button
-        onClick={() => alert("Let's Go!")} 
+        onClick={() => {
+          navigate("/tab-list/?code=abc123");
+        }} 
         className="px-6 py-3 bg-green-500 text-white rounded-full shadow-md hover:bg-green-600 transition"
       >
         Go to Tab

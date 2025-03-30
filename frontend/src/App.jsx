@@ -2,12 +2,12 @@ import "./style.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./integrals/Home";
 import TabList from "./integrals/TabList";
-import OwnerView from "./integrals/OwnerView";
 import MemberFinal from "./integrals/MemberFinal";
 import Upload from "./integrals/Upload";
 import ConfirmUpload from "./integrals/ConfirmUpload";
 import MemberHome from "./integrals/MemberHome";
 import GetLink from "./integrals/GetLink";
+import OwnerFinal from "./integrals/OwnerFinal";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tab-list" element={<TabList />}/>
-          <Route path="/owner-view" element={<OwnerView />} />
+          <Route path="/owner-final" element={<OwnerFinal />} />
           <Route path="/member-final" element={<MemberFinal />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/confirm-upload" element={<ConfirmUpload />} />
