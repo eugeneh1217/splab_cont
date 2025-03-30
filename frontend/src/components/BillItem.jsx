@@ -1,13 +1,36 @@
+import NameTag from "./NameTag";
 
-function BillItem({index, name, price, isChecked, handleCheckbox}) {
+function BillItem({
+  index,
+  name,
+  price,
+  isChecked,
+  handleCheckbox,
+  checkedBy = [],
+}) {
   return (
-    <div className="flex flex-row items-center relative w-full h-15 border border-gray-300 rounded-md">
-      <p className="ml-2 mr-5 text-sm font-bold">{index}.</p>
-      <p className="text-sm">{name}</p>
-      <p className="absolute right-20 font-bold">${price}</p>
-      <input className="absolute right-5" type="checkbox" checked={isChecked} onChange={(e) => handleCheckbox(e.target.value)}/>
+    <div className="flex flex-col gap-2 relative  w-full p-4 bg-gray-300/20 backdrop-blur-sm text-black font-bold rounded-xl shadow-lg border border-gray-300 font-mono">
+      <div className="flex items-center">
+        <p className="mr-4 text-sm opacity-70">{index}.</p>
+        <p className="flex-1 text-sm tracking-wide">{name}</p>
+        <p className="mr-4 text-sm font-bold text-secondary">${price}</p>
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={(e) => handleCheckbox(e.target.value)}
+          className="w-5 h-5 rounded-xl border-2 border-[var(--primary)] bg-white checked:bg-[var(--secondary)] appearance-none "
+        ></input>
+      </div>
+
+      {checkedBy.length > 0 && (
+        <div className="flex flex-wrap gap-2 mt-1">
+          {checkedBy.map((person, index) => (
+            <NameTag key={index} name={person} />
+          ))}
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 export default BillItem;

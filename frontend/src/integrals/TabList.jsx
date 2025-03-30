@@ -9,39 +9,47 @@ function TabList() {
 
   const [checkedItems, setCheckedItems] = useState({});
   const [tip, setTip] = useState("");
-  const members = ["Arnav Aggarwal", "Ishani Mehra", "Cheng Li", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta", "Siddharth Gupta"];
+  const members = [
+    "Arnav Aggarwal",
+    "Ishani Mehra",
+    "Cheng Li",
+    "Siddharth Gupta",
+    "Siddharth Gupta",
+    "Siddharth Gupta",
+    "Siddharth Gupta",
+    "Siddharth Gupta",
+    "Siddharth Gupta",
+    "Siddharth Gupta",
+    "Siddharth Gupta",
+    "Siddharth Gupta",
+    "Siddharth Gupta",
+  ];
 
   const items = [
-    { id: 1, name: "Potatoes", price: 13.5 },
     { id: 2, name: "Fries", price: 9.0 },
     { id: 3, name: "Coffee", price: 4.5 },
     { id: 4, name: "Burger", price: 11.99 },
-    { id: 5, name: "Ice Cream", price: 6.0 },
-    { id: 6, name: "Pizza", price: 15.0 },
-    { id: 7, name: "Salad", price: 7.5 },
-    { id: 8, name: "Soda", price: 2.5 },
-    { id: 9, name: "Pasta", price: 12.0 },
-    { id: 10, name: "Steak", price: 25.0 },
-    { id: 11, name: "Fish", price: 18.0 },
-    { id: 12, name: "Bread", price: 3.0 },
-    { id: 13, name: "Butter", price: 4.0 },
-    { id: 14, name: "Cheese", price: 5.0 },
-    { id: 15, name: "Chicken", price: 10.0 },
-    { id: 16, name: "Rice", price: 8.0 },
-    { id: 17, name: "Beans", price: 6.0 },
-    { id: 18, name: "Eggs", price: 2.0 },
-    { id: 19, name: "Yogurt", price: 3.5 },
-    { id: 20, name: "Cereal", price: 4.5 },
-    { id: 21, name: "Pancakes", price: 7.0 },
-    { id: 22, name: "Waffles", price: 8.0 },
-    { id: 23, name: "Donuts", price: 5.0 },
-    { id: 24, name: "Muffins", price: 4.0 },
-    { id: 25, name: "Cookies", price: 3.0 },
-    { id: 26, name: "Brownies", price: 4.5 },
-    { id: 27, name: "Cupcakes", price: 5.0 },
-    { id: 28, name: "Pie", price: 6.0 },
-    { id: 29, name: "Tart", price: 7.0 },
-    { id: 30, name: "Pudding", price: 4.0 },
+    { id: 5, name: "Salad", price: 7.5 },
+    { id: 6, name: "Soda", price: 2.5 },
+    { id: 7, name: "Pizza", price: 12.99 },
+    { id: 8, name: "Pasta", price: 10.0 },
+    { id: 9, name: "Dessert", price: 5.5 },
+    { id: 10, name: "Ice Cream", price: 3.0 },
+    { id: 11, name: "Bread", price: 1.5 },
+    { id: 12, name: "Butter", price: 2.0 },
+    { id: 13, name: "Cheese", price: 4.0 },
+    { id: 14, name: "Eggs", price: 3.5 },
+    { id: 15, name: "Chicken", price: 8.0 },
+    { id: 16, name: "Fish", price: 9.5 },
+    { id: 17, name: "Rice", price: 2.5 },
+    { id: 18, name: "Noodles", price: 4.5 },
+    { id: 19, name: "Soup", price: 3.0 },
+    { id: 20, name: "Steak", price: 15.0 },
+    { id: 21, name: "Lamb", price: 20.0 },
+    { id: 22, name: "Vegetables", price: 5.0 },
+    { id: 23, name: "Fruit", price: 2.0 },
+    { id: 24, name: "Snack", price: 1.0 },
+    { id: 25, name: "Drink", price: 2.5 },
   ];
 
   const handleCheckbox = (index) => {
@@ -56,18 +64,29 @@ function TabList() {
   };
 
   useEffect(() => {
-    if(!searchParams.get("code")) {
-      navigate("/")
+    if (!searchParams.get("code")) {
+      navigate("/");
     }
-  }, [])
+  }, []);
 
   return (
-    <div className="flex flex-col items-center h-screen bg-gray-100 relative">
+    <div className="flex flex-col items-center h-screen bg-white relative">
       <h1 className="m-5 text-lg font-bold">Your Tab</h1>
-      <p className="absolute right-15 top-5">Code: {searchParams.get("code")}</p>
+      <p className="absolute right-15 top-5">
+        Code: {searchParams.get("code")}
+      </p>
       <AvatarCircles members={members} />
 
-      <div className="flex-1 overflow-y-auto w-[80%] flex flex-col gap-2 pb-24">
+      <div className="flex-1 overflow-y-auto w-[86%] flex flex-col gap-2 pb-24">
+        <BillItem
+          index={1}
+          price={18.99}
+          name="Bill"
+          isChecked={!!checkedItems[1]}
+          handleCheckbox={() => handleCheckbox(1)}
+          checkedBy={["Ishani", "Arnav"]}
+        />
+
         {items.map((item, idx) => (
           <BillItem
             key={item.id}
