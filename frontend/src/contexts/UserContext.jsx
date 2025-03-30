@@ -7,7 +7,8 @@ export function UserProvider({ children }) {
     name: "",
     zelleId: "",
     isOwner: false,
-    id: ""
+    id: "",
+    items: {}
   });
 
   return (
