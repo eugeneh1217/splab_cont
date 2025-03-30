@@ -1,6 +1,12 @@
 import React from "react";
 
-const colors = ["bg-red-400", "bg-blue-400", "bg-green-400", "bg-yellow-400", "bg-purple-400"];
+const colors = [
+  "bg-red-400",
+  "bg-blue-400",
+  "bg-green-400",
+  "bg-yellow-400",
+  "bg-orange-400",
+];
 
 function AvatarCircles({ members }) {
   const maxVisible = 5;
@@ -8,7 +14,7 @@ function AvatarCircles({ members }) {
   const extraCount = members.length - maxVisible;
 
   return (
-    <div className="flex gap-2 mt-4 mb-2">
+    <div className="flex gap-0 mt-2 mb-3">
       {visibleMembers.map((name, index) => {
         const initials = name
           .split(" ")
@@ -20,7 +26,8 @@ function AvatarCircles({ members }) {
         return (
           <div
             key={index}
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ${color}`}
+            className={`border-1 border-black/10 w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ${color} ${
+              index !== 0 ? "-ml-2" : ""}`}
           >
             {initials}
           </div>
@@ -28,7 +35,7 @@ function AvatarCircles({ members }) {
       })}
 
       {extraCount > 0 && (
-        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-400 text-white text-xs font-bold">
+        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-400 text-white text-xs font-bold -ml-2">
           +{extraCount}
         </div>
       )}
